@@ -159,6 +159,11 @@ namespace Bacosoft
 
         private HttpWebRequest CreateRequest(string resource, string body)
         {
+            if (ServicePointManager.SecurityProtocol < SecurityProtocolType.Tls12)
+            {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            }
+
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(BaseUrl + resource + GetTenantString(Tenant));
             request.Method = "POST";
             request.Headers.Add(HttpRequestHeader.Authorization, GetCredentials(UserName, Password));
